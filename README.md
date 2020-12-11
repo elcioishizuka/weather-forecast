@@ -1,3 +1,9 @@
+## Updates on Dec 11th, 2020
+- Added an input field in the home.page.html to receive an API key to make the request in the API
+- The API key information was manipulated using NGRX state management tool (Action / Reducer / Store / Selector)
+
+*********************************************************************************************************************
+
 # JvWeather
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
