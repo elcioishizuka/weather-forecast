@@ -31,6 +31,8 @@ export class HomePage implements OnInit, OnDestroy {
   bookmarksList$: Observable<Bookmark[]>;
   isCurrentFavorite$: Observable<boolean>;
 
+  apiKeyControl: FormControl;
+
   searchControl: FormControl;
   searchControlWithAutocomplete: FormControl;
 
@@ -49,12 +51,14 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.searchControl = new FormControl('', Validators.required);
     this.searchControlWithAutocomplete = new FormControl(undefined);
-    
+
+    this.apiKeyControl = new FormControl('', Validators.required);
+
     this.searchControlWithAutocomplete.valueChanges
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((value: CityTypeaheadItem) => {
         if (!!value) {
-          this.store.dispatch(fromHomeActions.loadCurrentWeatherById({id: value.geonameid.toString()}));
+          this.store.dispatch(fromHomeActions.loadCurrentWeatherById({ id: value.geonameid.toString() }));
         }
       });
 
@@ -92,6 +96,12 @@ export class HomePage implements OnInit, OnDestroy {
   doSearch() {
     const query = this.searchControl.value;
     this.store.dispatch(fromHomeActions.loadCurrentWeather({ query }));
+  }
+
+  getApiKey() {
+    const apiKey = this.apiKeyControl.value;
+    this.store.dispatch(fromHomeActions.changeApiKey({ apiKey }));
+    /* console.log(apiKey); */
   }
 
   onToggleBookmark() {

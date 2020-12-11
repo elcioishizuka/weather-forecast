@@ -3,6 +3,11 @@ import { HomeState } from './home.reducer';
 
 export const selectHomeState = createFeatureSelector('home');
 
+export const selectApiKey = createSelector(
+  selectHomeState,
+  (homeState: HomeState) => homeState.apiKey,
+);
+
 export const selectCurrentWeather = createSelector(
   selectHomeState,
   (homeState: HomeState) => homeState.entity,

@@ -11,26 +11,36 @@ import { CityWeather, CityDailyWeather } from '../models/weather.model';
 import { AppState } from '../state/app.reducer';
 import { Units } from '../models/units.enum';
 import * as fromConfigSelectors from '../state/config/config.selectors';
+import * as fromHomeSelectors from '../../pages/home/state/home.selectors';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService implements OnDestroy {
 
+  private apiKey: string;
+
   private unit: Units;
 
   private serviceDestroyed$ = new Subject();
 
   constructor(private http: HttpClient,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private api: Store) {
     store
       .pipe(
         select(fromConfigSelectors.selectUnitConfig),
         takeUntil(this.serviceDestroyed$),
       )
       .subscribe((unit: Units) => this.unit = unit);
+    api
+      .pipe(
+        select(fromHomeSelectors.selectApiKey)
+      )
+      .subscribe(apiKey => this.apiKey = apiKey);
   }
-
+  
   ngOnDestroy() {
     this.serviceDestroyed$.next();
     this.serviceDestroyed$.unsubscribe();
@@ -68,11 +78,14 @@ export class WeatherService implements OnDestroy {
   }
 
   private doGet<T>(url: string, params: HttpParams): Observable<T> {
-    params = params.append('appid', environment.apiKey);
-    params = params.append('lang', 'pt_br');
+    params = params.append('appid', this.apiKey); /* Inclui API key nos parâmetros da URL */
+    params = params.append('lang', 'pt_br'); /* Inclui o idioma nos parâmetros da URL */
     if (this.unit !== Units.SI) {
       params = params.append('units', this.unit.toLocaleLowerCase());
     }
+    // console.log(params);
+    // console.log(url);
+    // console.log(`https://api.openweathermap.org/data/2.5/${ url }`, { params });
     return this.http.get<T>(`https://api.openweathermap.org/data/2.5/${ url }`, { params });
   }
 }

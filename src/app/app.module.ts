@@ -15,6 +15,7 @@ import { BookmarksModule } from './pages/bookmarks/bookmarks.module';
 import { environment } from '../environments/environment';
 import { reducers } from './shared/state/app.reducer';
 import { CustomRouterSerializer } from './shared/state/router/router.reducer';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CustomRouterSerializer } from './shared/state/router/router.reducer';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ serializer: CustomRouterSerializer }),
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

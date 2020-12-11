@@ -25,7 +25,7 @@ export class CustomRouterSerializer implements RouterStateSerializer<RouterState
       }
       route = route.firstChild;
     } while (!!route);
-
+    console.log({ url, params, queryParams, fragment });
     return { url, params, queryParams, fragment };
   }
 }

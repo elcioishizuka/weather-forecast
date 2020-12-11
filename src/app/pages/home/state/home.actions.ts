@@ -26,4 +26,9 @@ export const toggleBookmark = createAction(
   props<{ entity: Bookmark }>(),
 );
 
+export const changeApiKey = createAction(
+  '[Home] Change API Key', /* Tipo. [] é boa prática para saber de onde é a action*/
+  props<{ apiKey: string }>(),
+);
+
 export const clearHomeState = createAction('[Home] Clear Home State');

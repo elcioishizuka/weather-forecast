@@ -1,5 +1,20 @@
 <div class="container-fluid">
 
+  <div class="api-key-container">
+
+    <div class="form-group">
+      <label>Digite a chave do API</label>
+      <div>
+        <input class="form-control" [formControl]="apiKeyControl">
+        <button class="btn btn-dark"
+                [disabled]="!apiKeyControl.valid"
+                (click)="getApiKey()"
+                >OK</button>
+      </div>
+    </div>
+
+  </div>
+  
   <div class="search-container">
 
     <div class="form-group">
@@ -29,7 +44,9 @@
   </div>
 
   <div *ngIf="!(loading$ | async) && error$ | async">
-    <a>Tentar novamente</a>
+    <a>Tentar novamente
+      <br> Cidade não encontrada ou API key inválido
+    </a>
   </div>
 
 </div>
